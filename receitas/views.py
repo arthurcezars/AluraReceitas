@@ -3,7 +3,7 @@ from .models import Receita
 
 # Create your views here.
 def index(request):
-    receitas = Receita.objects.all()
+    receitas = Receita.objects.order_by('-data_receita').filter(publicada=True)
 
     dados = {
         'receitas': receitas
@@ -17,3 +17,16 @@ def receita(request, receita_id):
         'receita': receita
     }
     return render(request, template_name='receita.html', context=dado)
+
+def buscar(request):
+    receitas = Receita.objects.order_by('-data_receita').filter(publicada=True)
+
+    if 'buscar' in request.GET:
+        nome = request.GET.get('buscar')
+        if nome:
+            receitas = receitas.filter(nome_receita__icontains=nome)
+    
+    dados = {
+        'receitas': receitas
+    }
+    return render(request, template_name='buscar.html', context=dados)
