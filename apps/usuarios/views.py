@@ -5,6 +5,7 @@ from receitas.models import Receita
 
 # Create your views here.
 def cadastro(request):
+    """Cadastra uma nova pessoa no sistema  """
     if request.method == 'POST':
         nome = request.POST.get('nome')
         email = request.POST.get('email')
@@ -33,6 +34,7 @@ def cadastro(request):
         return render(request, 'usuarios/cadastro.html')
 
 def login(request):
+    """Realiza o login de uma pessoa no sistema """
     if request.method == 'POST':
         email = request.POST.get('email')
         senha = request.POST.get('senha')
@@ -49,10 +51,12 @@ def login(request):
     return render(request, 'usuarios/login.html')
 
 def logout(request):
+    """Realiza o logout de uma pessoa no sistema """
     auth.logout(request)
     return redirect('index')
 
 def dashboard(request):
+    """Retorna a tela de dashboard do usuario com as receitas que ele criou """
     if request.user.is_authenticated:
         id = request.user.id
         receitas = Receita.objects.order_by('-data_receita').filter(pessoa=id)

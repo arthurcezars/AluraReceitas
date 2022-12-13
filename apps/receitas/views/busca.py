@@ -4,6 +4,7 @@ from django.contrib import auth, messages
 from receitas.models import Receita
 
 def buscar(request):
+    """Realiza a busca de uma receita """
     receitas = Receita.objects.order_by('-data_receita').filter(publicada=True)
 
     if 'buscar' in request.GET:
